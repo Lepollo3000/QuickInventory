@@ -2,9 +2,14 @@
 @inject NavigationManager Navigation
 
 <RemoteAuthenticatorView Action="@Action">
-    <LogOutSucceeded>
-        <RedirectToIndex />
-    </LogOutSucceeded>
+    <LogOut>Verificando estado de autenticación.</LogOut>
+    <CompletingLogOut>Cerrando sesión.</CompletingLogOut>
+    <LogOutSucceeded><RedirectToIndex /></LogOutSucceeded>
+    <LogOutFailed>Lo sentimos, no se pudo cerrar la sesión.</LogOutFailed>
+
+    <LoggingIn>Verificando estado de autenticación.</LoggingIn>
+    <CompletingLoggingIn>Iniciando sesión.</CompletingLoggingIn>
+    <LogInFailed>Lo sentimos, no se pudo inciar la sesión.</LogInFailed>
 </RemoteAuthenticatorView>
 
 @code{
