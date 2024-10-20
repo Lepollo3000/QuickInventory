@@ -11,7 +11,7 @@
     <div class="col-md-6 col-sm-8 col-10">
         <section class="mb-5">
             <form id="account" method="post">
-                <h2>Si te diste de alta en el sistema, ingresa tu correo y contraseña.</h2>
+                <h2>Por favor ingresa tu usuario y contraseña.</h2>
 
                 <hr />
 
@@ -46,35 +46,16 @@
                     <p>
                         <a id="forgot-password" asp-page="./ForgotPassword">¿Se te olvidó la contraseña?</a>
                     </p>
-
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Regístrate</a>
-                    </p>
-
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
                 </div>
             </form>
         </section>
 
-        <section class="mb-5">
-            <h3>También puedes iniciar sesión con:</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
-                                article
-                                about setting up this ASP.NET application to support logging in via external services
-                            </a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
+        @{
+            if ((Model.ExternalLogins?.Count ?? 0) != 0)
+            {
+                <section class="mb-5">
+                    <h3>También puedes iniciar sesión con:</h3>
+                    <hr />
                     <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                         <div>
                             <p>
@@ -91,9 +72,9 @@
                             </p>
                         </div>
                     </form>
-                }
+                </section>
             }
-        </section>
+        }
     </div>
 </div>
 

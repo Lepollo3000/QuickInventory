@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NOAM_ASISTENCIA_v3.Server.Data;
 using QuickInventory.Server.Data;
 using QuickInventory.Server.Models;
 
@@ -36,6 +36,9 @@ builder.Services
     .AddIdentityServerJwt();
 
 builder.Services
+    .AddHostedService<ApplicationDbContextSeed>();
+
+builder.Services
     .AddRazorPages();
 builder.Services
     .AddControllersWithViews();
@@ -67,7 +70,6 @@ app.UseRouting();
 app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapRazorPages();
 app.MapControllers();
