@@ -3,10 +3,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QUICK_INVENTORY.Shared.Models.Requests;
 
-public record ProductoRegistroCreateRequest(
-    [Required(ErrorMessage = GeneralErrors.CampoRequerido)][Range(minimum: 1, maximum: int.MaxValue, ErrorMessage = GeneralErrors.CampoNoDeberSerCero)] int ProductoId,
-    [Required(ErrorMessage = GeneralErrors.CampoRequerido)] EnumRegistroTipo RegistroTipoId,
-    [Required(ErrorMessage = GeneralErrors.CampoRequerido)] string Empleado,
-    [Required(ErrorMessage = GeneralErrors.CampoRequerido)][Range(minimum: 1, maximum: int.MaxValue, ErrorMessage = GeneralErrors.CampoNoDeberSerCero)] int Cantidad,
-    [Required(ErrorMessage = GeneralErrors.CampoRequerido)] int NumeroExterno,
-    [Required(ErrorMessage = GeneralErrors.CampoRequerido)] int NumeroInterno);
+public class ProductoRegistroCreateRequest
+{
+    [Required(ErrorMessage = GeneralErrors.CampoRequerido)]
+    [Range(1, int.MaxValue, ErrorMessage = GeneralErrors.CampoNoDeberSerCero)]
+    public int ProductoId { get; set; }
+    [Required(ErrorMessage = GeneralErrors.CampoRequerido)]
+    public EnumRegistroTipo RegistroTipoId { get; set; }
+    [Required(AllowEmptyStrings = false, ErrorMessage = GeneralErrors.CampoRequerido)]
+    public string Empleado { get; set; } = null!;
+    [Required(ErrorMessage = GeneralErrors.CampoRequerido)]
+    [Range(1, int.MaxValue, ErrorMessage = GeneralErrors.CampoNoDeberSerCero)]
+    public int Cantidad { get; set; }
+    [Required(ErrorMessage = GeneralErrors.CampoRequerido)]
+    public int NumeroExterno { get; set; }
+    [Required(ErrorMessage = GeneralErrors.CampoRequerido)]
+    public int NumeroInterno { get; set; }
+};

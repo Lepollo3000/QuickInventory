@@ -2,7 +2,7 @@
 
 namespace QUICK_INVENTORY.Client.Data.Services;
 
-internal interface IApplicationServices
+public interface IApplicationServices
 {
     IProductoRegistrosService ProductoRegistros { get; }
 }
