@@ -1,0 +1,62 @@
+﻿@attribute [Route(ApplicationPages.Productos.Listado)]
+@attribute [Authorize]
+
+<PageTitle>Productos</PageTitle>
+
+<MudTable T="ProductoTableModel" ServerData="ServerReload" Dense="true" Hover="true">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Productos</MudText>
+    </ToolBarContent>
+
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="Locacion" T="ProductoTableModel">Locacion</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="Nombre" T="ProductoTableModel">Nombre</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="Descripcion" T="ProductoTableModel">Descripción</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="StockMedidaId" T="ProductoTableModel">Medida</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="StockMinimo" T="ProductoTableModel">Stock Minimo</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="StockMaximo" T="ProductoTableModel">Stock Maximo</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="Stock" T="ProductoTableModel">Stock</MudTableSortLabel></MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="@(context.GetDisplayName(model => model.Locacion))">@context.Locacion</MudTd>
+        <MudTd DataLabel="@(context.GetDisplayName(model => model.Nombre))">@context.Nombre</MudTd>
+        <MudTd DataLabel="@(context.GetDisplayName(model => model.Descripcion))">@context.Descripcion</MudTd>
+        <MudTd DataLabel="@(context.GetDisplayName(model => model.StockMedidaId))">@context.StockMedidaId.GetDisplayName()</MudTd>
+        <MudTd DataLabel="@(context.GetDisplayName(model => model.StockMinimo))">@context.StockMinimo</MudTd>
+        <MudTd DataLabel="@(context.GetDisplayName(model => model.StockMaximo))">@context.StockMaximo</MudTd>
+        <MudTd DataLabel="@(context.GetDisplayName(model => model.Stock))">@context.Stock</MudTd>
+    </RowTemplate>
+
+    <NoRecordsContent>
+        <MudText>No se encontró ningún registro.</MudText>
+    </NoRecordsContent>
+
+    <LoadingContent>
+        <MudText>Cargando...</MudText>
+    </LoadingContent>
+
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code {
+    [Inject]
+    public IApplicationServices Services { get; set; } = null!;
+
+    private async Task<TableData<ProductoTableModel>> ServerReload(TableState state, CancellationToken token)
+    {
+        var data = await Services
+            .Productos.ConsultarProductos();
+
+        var totalItems = data.Value.Count();
+
+        var pagedData = data.Value
+            .Skip(state.Page * state.PageSize)
+            .Take(state.PageSize)
+            .ToList();
+
+        return new TableData<ProductoTableModel>() { TotalItems = totalItems, Items = pagedData };
+    }
+}

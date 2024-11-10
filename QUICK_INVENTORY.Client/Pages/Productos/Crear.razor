@@ -1,0 +1,121 @@
+﻿@attribute [Route(ApplicationPages.Productos.Crear)]
+@attribute [Authorize]
+
+<MudGrid Justify="Justify.Center">
+    <MudItem md="6" sm="10" xs="12">
+        <EditForm Model="@Request" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+
+            <MudText Typo="Typo.h4">Alta de Producto</MudText>
+
+            <MudDivider Light="true" Class="my-4" />
+
+            <MudTextField @bind-Value="@Request.CodigoBarras" For="@(() => Request.CodigoBarras)"
+                          Label="@Request.GetDisplayName(model => model.CodigoBarras)"
+                          HelperText="@Request.GetDisplayDescription(model => model.CodigoBarras)"
+                          AdornmentColor="@TextInputDefaults.Color"
+                          Margin="@TextInputDefaults.Margin"
+                          Variant="@TextInputDefaults.Variant"
+                          InputType="@TextInputDefaults.InputType"
+                          Immediate="@TextInputDefaults.Inmediate" />
+
+            <MudTextField @bind-Value="@Request.Locacion" For="@(() => Request.Locacion)"
+                          Label="@Request.GetDisplayName(model => model.Locacion)"
+                          HelperText="@Request.GetDisplayDescription(model => model.Locacion)"
+                          AdornmentColor="@TextInputDefaults.Color"
+                          Margin="@TextInputDefaults.Margin"
+                          Variant="@TextInputDefaults.Variant"
+                          InputType="@TextInputDefaults.InputType"
+                          Immediate="@TextInputDefaults.Inmediate" />
+
+            <MudTextField @bind-Value="@Request.Nombre" For="@(() => Request.Nombre)"
+                          Label="@Request.GetDisplayName(model => model.Nombre)"
+                          HelperText="@Request.GetDisplayDescription(model => model.Nombre)"
+                          AdornmentColor="@TextInputDefaults.Color"
+                          Margin="@TextInputDefaults.Margin"
+                          Variant="@TextInputDefaults.Variant"
+                          InputType="@TextInputDefaults.InputType"
+                          Immediate="@TextInputDefaults.Inmediate" />
+
+            <MudTextField @bind-Value="@Request.Descripcion" For="@(() => Request.Descripcion)"
+                          Label="@Request.GetDisplayName(model => model.Descripcion)"
+                          HelperText="@Request.GetDisplayDescription(model => model.Descripcion)"
+                          AdornmentColor="@TextInputDefaults.Color"
+                          Margin="@TextInputDefaults.Margin"
+                          Variant="@TextInputDefaults.Variant"
+                          InputType="@TextInputDefaults.InputType"
+                          Immediate="@TextInputDefaults.Inmediate" />
+
+            <MudSelect @bind-Value="@Request.StockMedidaId" For="@(() => Request.StockMedidaId)"
+                       Label="@Request.GetDisplayName(model => model.StockMedidaId)"
+                       HelperText="@Request.GetDisplayDescription(model => model.StockMedidaId)"
+                       AdornmentColor="@TextInputDefaults.Color"
+                       Margin="@TextInputDefaults.Margin"
+                       Variant="@TextInputDefaults.Variant"
+                       Immediate="@TextInputDefaults.Inmediate">
+                @foreach (EnumStockMedida registroTipo in Enum.GetValues(typeof(EnumStockMedida)))
+                {
+                    <MudSelectItem Value="@registroTipo">
+                        @(registroTipo.GetDisplayName())
+                    </MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudNumericField @bind-Value="@Request.Stock" For="@(() => Request.Stock)"
+                             Label="@Request.GetDisplayName(model => model.Stock)"
+                             HelperText="@Request.GetDisplayDescription(model => model.Stock)"
+                             AdornmentColor="@TextInputDefaults.Color"
+                             Margin="@TextInputDefaults.Margin"
+                             Variant="@TextInputDefaults.Variant"
+                             Immediate="@TextInputDefaults.Inmediate" />
+
+            <MudNumericField @bind-Value="@Request.StockMinimo" For="@(() => Request.StockMinimo)"
+                             Label="@Request.GetDisplayName(model => model.StockMinimo)"
+                             HelperText="@Request.GetDisplayDescription(model => model.StockMinimo)"
+                             AdornmentColor="@TextInputDefaults.Color"
+                             Margin="@TextInputDefaults.Margin"
+                             Variant="@TextInputDefaults.Variant"
+                             Immediate="@TextInputDefaults.Inmediate" />
+
+            <MudNumericField @bind-Value="@Request.StockMaximo" For="@(() => Request.StockMaximo)"
+                             Label="@Request.GetDisplayName(model => model.StockMaximo)"
+                             HelperText="@Request.GetDisplayDescription(model => model.StockMaximo)"
+                             AdornmentColor="@TextInputDefaults.Color"
+                             Margin="@TextInputDefaults.Margin"
+                             Variant="@TextInputDefaults.Variant"
+                             Immediate="@TextInputDefaults.Inmediate" />
+
+            <MudDivider Light="true" Class="my-4" />
+
+            <MudButton ButtonType="ButtonType.Submit"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       FullWidth="true">
+                Enviar
+            </MudButton>
+        </EditForm>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [Inject]
+    public IApplicationServices Services { get; set; } = null!;
+    [Inject]
+    public NavigationManager Navigation { get; set; } = null!;
+
+    private ProductoCreateRequest Request { get; set; } = new()
+        {
+            StockMedidaId = EnumStockMedida.Pieza
+        };
+
+    private async Task HandleValidSubmit(EditContext context)
+    {
+        Result<ProductoTableModel> result = await Services
+            .Productos.InsertarProducto(request: Request);
+
+        if (result.IsSuccess)
+        {
+            Navigation.NavigateTo(ApplicationPages.Productos.Listado);
+        }
+    }
+}

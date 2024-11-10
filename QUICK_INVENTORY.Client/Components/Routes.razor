@@ -1,0 +1,46 @@
+﻿<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData">
+        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
+            <NotAuthorized>
+                @if (context.User.Identity?.IsAuthenticated != true)
+                {
+                    <RedirectToLogin />
+                }
+                else
+                {
+                    <p role="alert">You are not authorized to access this resource.</p>
+                }
+            </NotAuthorized>
+        </AuthorizeRouteView>
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+</Router>
+
+<MudPopoverProvider />
+<MudThemeProvider Theme="@ApplicationTheme" />
+
+@code {
+    private static MudTheme ApplicationTheme
+    {
+        get => new MudTheme
+            {
+                PaletteLight = new PaletteLight
+                {
+                    AppbarBackground = new MudColor("#003D59"),
+                    AppbarText = new MudColor("#FFFFFF"),
+                    DrawerBackground = new MudColor("#403D39"),
+                    DrawerIcon = new MudColor("#FFFFFF"),
+                    DrawerText = new MudColor("#FFFFFF"),
+                    
+                    Primary = new MudColor("#003D59"),
+                    Secondary = new MudColor("#013243"),
+                    Tertiary = new MudColor("#007BA7"),
+                    Info = new MudColor("#CF71AF"),
+                    Success = new MudColor("#3CD070"),
+                    Warning = new MudColor("#FFCC00"),
+                    Error = new MudColor("#FF0000"),
+                    Dark = new MudColor("#010B13"),
+                }
+            };
+    }
+}

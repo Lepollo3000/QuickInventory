@@ -1,34 +1,22 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Quick Inventory</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+﻿@inject NavigationManager NavigationManager
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <i class="fa fa-home mx-1" aria-hidden="true" /> Inicio
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="a" Match="NavLinkMatch.All">
-                <i class="fa fa-home mx-1" aria-hidden="true" /> A
-            </NavLink>
-        </div>
-    </nav>
-</div>
+<MudNavMenu>
+    <AuthorizeView>
+        <Authorized>
+            <MudNavLink Href="@ApplicationPages.Home"
+                        Match="NavLinkMatch.All">
+                Inicio
+            </MudNavLink>
 
-@code {
-    private bool collapseNavMenu = true;
+            <MudNavLink Href="@ApplicationPages.Productos.Listado"
+                        Match="NavLinkMatch.All">
+                Productos
+            </MudNavLink>
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+            <MudNavLink Href="@ApplicationPages.Productos.Crear"
+                        Match="NavLinkMatch.All">
+                Crear Productos
+            </MudNavLink>
+        </Authorized>
+    </AuthorizeView>
+</MudNavMenu>

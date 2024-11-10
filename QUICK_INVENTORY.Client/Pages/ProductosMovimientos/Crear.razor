@@ -1,0 +1,168 @@
+﻿@attribute [Route(ApplicationPages.Home)]
+@attribute [Authorize]
+
+<PageTitle>Movimientos de Inventario</PageTitle>
+
+<MudGrid Justify="Justify.Center">
+    <MudItem md="6" sm="10" xs="12">
+        <EditForm EditContext="@RequestContext" Context="MainForm" OnValidSubmit="@HandleSubmit">
+            <DataAnnotationsValidator />
+
+            <MudText Typo="Typo.h4">Movimientos de Inventario</MudText>
+
+            <MudDivider Light="true" Class="my-4" />
+
+            <EditForm Model="@SearchRequest" OnValidSubmit="@BuscarProducto">
+                <MudTextField @bind-Value="@SearchRequest.CodigoBarras" For="@(() => SearchRequest.CodigoBarras)"
+                              Label="@Request.GetDisplayName(model => model.ProductoId)"
+                              HelperText="@Request.GetDisplayDescription(model => model.ProductoId)"
+                              AdornmentColor="@TextInputDefaults.Color"
+                              Margin="@TextInputDefaults.Margin"
+                              Variant="@TextInputDefaults.Variant"
+                              InputType="@TextInputDefaults.InputType"
+                              Immediate="@TextInputDefaults.Inmediate" />
+
+                <MudCard Outlined="true" Elevation="0" Class="mb-3">
+                    <MudText Color="Color.Secondary" Align="Align.Start" Class="m-2 mx-3">@(Producto)</MudText>
+                </MudCard>
+
+                <MudButton ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           FullWidth="true">
+                    Buscar Producto
+                </MudButton>
+            </EditForm>
+
+            <MudText Color="Color.Error"><ValidationMessage class="my-3" For="@(() => Request.ProductoId)" /></MudText>
+
+            <MudDivider Light="true" Class="my-4" />
+
+            <MudNumericField @bind-Value="@Request.Cantidad" For="@(() => Request.Cantidad)"
+                             Label="@Request.GetDisplayName(model => model.Cantidad)"
+                             HelperText="@Request.GetDisplayDescription(model => model.Cantidad)"
+                             AdornmentColor="@TextInputDefaults.Color"
+                             Margin="@TextInputDefaults.Margin"
+                             Variant="@TextInputDefaults.Variant"
+                             Immediate="@TextInputDefaults.Inmediate" />
+
+            <MudSelect @bind-Value="@Request.RegistroTipoId" For="@(() => Request.RegistroTipoId)"
+                       Label="@Request.GetDisplayName(model => model.RegistroTipoId)"
+                       HelperText="@Request.GetDisplayDescription(model => model.RegistroTipoId)"
+                       AdornmentColor="@TextInputDefaults.Color"
+                       Margin="@TextInputDefaults.Margin"
+                       Variant="@TextInputDefaults.Variant"
+                       Immediate="@TextInputDefaults.Inmediate">
+                @foreach (EnumRegistroTipo registroTipo in Enum.GetValues(typeof(EnumRegistroTipo)))
+                {
+                    <MudSelectItem Value="@registroTipo">
+                        @(registroTipo.GetDisplayName())
+                    </MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudTextField @bind-Value="@Request.Empleado" For="@(() => Request.Empleado)"
+                          Label="@Request.GetDisplayName(model => model.Empleado)"
+                          HelperText="@Request.GetDisplayDescription(model => model.Empleado)"
+                          AdornmentColor="@TextInputDefaults.Color"
+                          Margin="@TextInputDefaults.Margin"
+                          Variant="@TextInputDefaults.Variant"
+                          InputType="@TextInputDefaults.InputType"
+                          Immediate="@TextInputDefaults.Inmediate" />
+
+            <MudTextField @bind-Value="@Request.NumeroExterno" For="@(() => Request.NumeroExterno)"
+                          Label="@Request.GetDisplayName(model => model.NumeroExterno)"
+                          HelperText="@Request.GetDisplayDescription(model => model.NumeroExterno)"
+                          AdornmentColor="@TextInputDefaults.Color"
+                          Margin="@TextInputDefaults.Margin"
+                          Variant="@TextInputDefaults.Variant"
+                          InputType="@TextInputDefaults.InputType"
+                          Immediate="@TextInputDefaults.Inmediate" />
+
+            <MudTextField @bind-Value="@Request.NumeroInterno" For="@(() => Request.NumeroInterno)"
+                          Label="@Request.GetDisplayName(model => model.NumeroInterno)"
+                          HelperText="@Request.GetDisplayDescription(model => model.NumeroInterno)"
+                          AdornmentColor="@TextInputDefaults.Color"
+                          Margin="@TextInputDefaults.Margin"
+                          Variant="@TextInputDefaults.Variant"
+                          InputType="@TextInputDefaults.InputType"
+                          Immediate="@TextInputDefaults.Inmediate" />
+
+            <MudDivider Light="true" Class="my-4" />
+
+            <MudButton ButtonType="ButtonType.Submit"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       FullWidth="true">
+                Enviar
+            </MudButton>
+        </EditForm>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [Inject]
+    public IApplicationServices Services { get; set; } = null!;
+
+    private const string _productoNoBuscado = "No se ha buscado ningún producto.";
+    private const string _productoBuscando = "Validando producto...";
+    private const string _productoNoEncontrado = "El producto no se encontró o no existe.";
+
+
+    private string Producto { get; set; } = _productoNoBuscado;
+
+    private ProductoSearchRequest SearchRequest { get; set; } = new();
+
+
+    private EditContext RequestContext { get; set; } = null!;
+
+    private ProductoMovimientoCreateRequest Request { get; set; } = new()
+        {
+            RegistroTipoId = EnumRegistroTipo.Entrada
+        };
+
+    protected override Task OnInitializedAsync()
+    {
+        RequestContext = new(Request);
+
+        return base.OnInitializedAsync();
+    }
+
+    private async void BuscarProducto()
+    {
+        Producto = _productoBuscando;
+        Request.ProductoId = default;
+
+        StateHasChanged();
+
+        Result<ProductoTableModel>
+        result = await Services.Productos
+            .ConsultarProducto(request: SearchRequest);
+
+        if (result.IsSuccess)
+        {
+            Producto = $"{result.Value.Nombre} | {result.Value.Descripcion}";
+            Request.ProductoId = result.Value.Id;
+
+            if (RequestContext.GetValidationMessages().Any())
+            {
+                RequestContext.Validate();
+            }
+        }
+        else
+        {
+            Producto = _productoNoEncontrado;
+
+            SearchRequest.CodigoBarras = null!;
+        }
+
+        StateHasChanged();
+    }
+
+    private async void HandleSubmit()
+    {
+        Result<ProductoMovimientoCreateRequest>
+        result = await Services.ProductoRegistros
+            .InsertarProductoRegistro(createRequest: Request);
+    }
+}
