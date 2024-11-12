@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\QUICK_INVENTORY.Shared\QUICK_INVENTORY.Shared.csproj" />
+    <ProjectReference Include="..\QUICK_INVENTORY.Shared\QUICK_INVENTORY.Shared.csproj" />
   </ItemGroup>
 
 </Project>

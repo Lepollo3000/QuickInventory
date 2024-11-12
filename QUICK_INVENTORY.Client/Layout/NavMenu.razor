@@ -3,20 +3,46 @@
 <MudNavMenu>
     <AuthorizeView>
         <Authorized>
-            <MudNavLink Href="@ApplicationPages.Home"
-                        Match="NavLinkMatch.All">
-                Inicio
-            </MudNavLink>
+            <MudNavGroup Title="Movimientos" Expanded="true">
+                <MudNavLink Href="@ApplicationPages.Productos.Movimientos.Crear"
+                            Match="NavLinkMatch.All">
+                    Alta de Entradas y Salidas
+                </MudNavLink>
 
-            <MudNavLink Href="@ApplicationPages.Productos.Listado"
-                        Match="NavLinkMatch.All">
-                Productos
-            </MudNavLink>
+                <MudNavLink Href="@ApplicationPages.Productos.Movimientos.Entradas"
+                            Match="NavLinkMatch.All">
+                    Entradas
+                </MudNavLink>
 
-            <MudNavLink Href="@ApplicationPages.Productos.Crear"
-                        Match="NavLinkMatch.All">
-                Crear Productos
-            </MudNavLink>
+                <MudNavLink Href="@ApplicationPages.Productos.Movimientos.Salidas"
+                            Match="NavLinkMatch.All">
+                    Salidas
+                </MudNavLink>
+            </MudNavGroup>
+
+            <MudNavGroup Title="Productos" Expanded="true">
+                <MudNavLink Href="@ApplicationPages.Productos.Crear"
+                            Match="NavLinkMatch.All">
+                    Alta de Productos
+                </MudNavLink>
+
+                <MudNavLink Href="@ApplicationPages.Productos.Listado"
+                            Match="NavLinkMatch.All">
+                    Productos
+                </MudNavLink>
+            </MudNavGroup>
+
+            <MudNavGroup Title="Inventario" Expanded="true">
+                <MudNavLink Href="@ApplicationPages.Inventario.Listado"
+                            Match="NavLinkMatch.All">
+                    Inventario Actual
+                </MudNavLink>
+
+                <MudNavLink Href="@ApplicationPages.Inventario.Corte.Listado"
+                            Match="NavLinkMatch.All">
+                    Cortes de Inventario
+                </MudNavLink>
+            </MudNavGroup>
         </Authorized>
     </AuthorizeView>
 </MudNavMenu>

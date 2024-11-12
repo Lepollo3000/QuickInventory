@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using QUICK_INVENTORY.Components;
 using QUICK_INVENTORY.Components.Account;
 using QUICK_INVENTORY.Data;
-using QUICK_INVENTORY.Data.Repositories.Application;
 using QUICK_INVENTORY.Data.Repositories;
+using QUICK_INVENTORY.Data.Repositories.Application;
 using QUICK_INVENTORY.Data.Services;
-using QUICK_INVENTORY.Domain;
-using QUICK_INVENTORY.Helpers.Repositories.Application;
-using QUICK_INVENTORY.Helpers.Repositories;
-using QUICK_INVENTORY.Helpers.Services.Application;
-using QUICK_INVENTORY.Helpers.Services;
-using QUICK_INVENTORY.Shared.Helpers;
 using QUICK_INVENTORY.Data.Services.Application;
+using QUICK_INVENTORY.Domain;
+using QUICK_INVENTORY.Helpers.Repositories;
+using QUICK_INVENTORY.Helpers.Repositories.Application;
+using QUICK_INVENTORY.Helpers.Services;
+using QUICK_INVENTORY.Helpers.Services.Application;
+using QUICK_INVENTORY.Shared.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +55,7 @@ builder.Services.AddScoped<IProductosService, ProductosService>();
 builder.Services.AddScoped<IProductoRegistrosService, ProductoRegistrosService>();
 
 builder.Services.AddScoped<IGeneralRepository, GeneralRepository>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<IProductoRegistrosRepository, ProductoRegistrosRepository>();
 
 builder.Services.AddScoped<IApplicationServices, ApplicationServices>();

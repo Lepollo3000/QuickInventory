@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QUICK_INVENTORY.Data;
 
@@ -11,9 +12,11 @@ using QUICK_INVENTORY.Data;
 namespace QUICK_INVENTORY.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241112121902_CorreccionesParaProductoMovimiento")]
+    partial class CorreccionesParaProductoMovimiento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -461,9 +464,6 @@ namespace QUICK_INVENTORY.Data.Migrations
 
                     b.Property<DateTime>("FechaMovimiento")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("MovimientoCantidad")
-                        .HasColumnType("int");
 
                     b.Property<string>("NumeroExterno")
                         .HasColumnType("nvarchar(max)");

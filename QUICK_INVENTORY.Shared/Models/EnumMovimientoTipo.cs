@@ -2,7 +2,7 @@
 
 namespace QUICK_INVENTORY.Shared.Models;
 
-public enum EnumRegistroTipo
+public enum EnumMovimientoTipo
 {
     [Display(Name = "Entrada")]
     Entrada = 1,

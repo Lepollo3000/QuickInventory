@@ -27,8 +27,8 @@ public class Producto : EntidadPrimaria<int>
     public virtual StockMedida StockMedida { get; set; } = null!;
 
 
-    [InverseProperty(nameof(ProductoRegistro.Producto))]
-    public virtual ICollection<ProductoRegistro> Registros { get; set; } = null!;
+    [InverseProperty(nameof(ProductoMovimiento.Producto))]
+    public virtual ICollection<ProductoMovimiento> Registros { get; set; } = null!;
     [InverseProperty(nameof(InventarioCorteDetalle.Producto))]
     public virtual ICollection<InventarioCorteDetalle> InventarioCortes { get; set; } = null!;
 

@@ -2,22 +2,22 @@
 
 public class ApplicationApiEndpoints
 {
-    private const string Principal = "api";
+    private const string Home = "api";
 
     public class Productos
     {
-        public const string Producto = $"{Principal}/productos";
+        public const string Principal = $"{Home}/productos";
 
-        public const string Busqueda = $"{Producto}";
-        public const string Listado = $"{Producto}/listado";
+        public const string Busqueda = $"{Principal}";
+        public const string Listado = $"{Principal}/listado";
 
-        public const string Crear = $"{Producto}";
+        public const string Crear = $"{Principal}";
 
         public class Movimientos
         {
-            public const string Movimiento = $"{Producto}/movimientos";
+            public const string Principal = $"{Productos.Principal}/movimientos";
 
-            public const string Crear = $"{Movimiento}";
+            public const string Crear = $"{Principal}";
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using QUICK_INVENTORY.Data.Repositories;
 using QUICK_INVENTORY.Data.Services.Application;
 using QUICK_INVENTORY.Domain;
-using QUICK_INVENTORY.Shared.Models;
 using QUICK_INVENTORY.Shared.Models.Requests;
 using QUICK_INVENTORY.Shared.Models.TableModels;
 
@@ -11,14 +10,14 @@ public class ProductoRegistrosService(IApplicationRepositories repositories) : I
 {
     private readonly IApplicationRepositories _repositories = repositories;
 
-    public async Task<ProductoRegistro> InsertarProductoRegistro(ProductoMovimientoCreateRequest createRequest, IdentidadUsuario usuario)
+    public async Task<ProductoMovimiento> InsertarProductoRegistro(ProductoMovimientoCreateRequest createRequest, IdentidadUsuario usuario)
     {
         int folio = await _repositories
             .ProductoRegistros.ConsultarFolio(
                 createRequest: createRequest);
 
         var productoRegistro =
-            new ProductoRegistro(
+            new ProductoMovimiento(
                 createRequest: createRequest,
                 folio: folio,
                 usuario: usuario);
@@ -28,8 +27,8 @@ public class ProductoRegistrosService(IApplicationRepositories repositories) : I
         return productoRegistro;
     }
 
-    public async Task<ProductoRegistroTableModel> ConsultarProductoRegistros()
+    public async Task<IEnumerable<ProductoMovimientoTableModel>> ConsultarProductoRegistros()
     {
-        return new("", default, EnumRegistroTipo.Salida);
+        return [];
     }
 }

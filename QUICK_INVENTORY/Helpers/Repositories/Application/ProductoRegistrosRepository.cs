@@ -12,9 +12,10 @@ public class ProductoRegistrosRepository(IGeneralRepository generalRepository) :
 
     public async Task<int> ConsultarFolio(ProductoMovimientoCreateRequest request)
     {
-        return (await _context.ProductoRegistros
+        return (await _context.ProductoMovimientos
             .Where(model => !model.EstaEliminado)
-            .Where(model => model.RegistroTipoId == request.RegistroTipoId)
+            .Where(model => model.MovimientoTipoId == request.MovimientoTipoId)
+            .OrderByDescending(model => model.Folio)
             .Select(model => model.Folio)
             .FirstOrDefaultAsync()) + 1;
     }

@@ -5,5 +5,6 @@ namespace QUICK_INVENTORY.Data.Repositories;
 public interface IApplicationRepositories
 {
     public IGeneralRepository General { get; }
+    public IProductoRepository Productos { get; }
     public IProductoRegistrosRepository ProductoRegistros { get; }
 }

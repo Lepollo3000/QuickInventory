@@ -1,4 +1,5 @@
 ﻿@attribute [Route(ApplicationPages.Home)]
+@attribute [Route(ApplicationPages.Productos.Movimientos.Crear)]
 @attribute [Authorize]
 
 <PageTitle>Movimientos de Inventario</PageTitle>
@@ -38,22 +39,22 @@
 
             <MudDivider Light="true" Class="my-4" />
 
-            <MudNumericField @bind-Value="@Request.Cantidad" For="@(() => Request.Cantidad)"
-                             Label="@Request.GetDisplayName(model => model.Cantidad)"
-                             HelperText="@Request.GetDisplayDescription(model => model.Cantidad)"
+            <MudNumericField @bind-Value="@Request.MovimientoCantidad" For="@(() => Request.MovimientoCantidad)"
+                             Label="@Request.GetDisplayName(model => model.MovimientoCantidad)"
+                             HelperText="@Request.GetDisplayDescription(model => model.MovimientoCantidad)"
                              AdornmentColor="@TextInputDefaults.Color"
                              Margin="@TextInputDefaults.Margin"
                              Variant="@TextInputDefaults.Variant"
                              Immediate="@TextInputDefaults.Inmediate" />
 
-            <MudSelect @bind-Value="@Request.RegistroTipoId" For="@(() => Request.RegistroTipoId)"
-                       Label="@Request.GetDisplayName(model => model.RegistroTipoId)"
-                       HelperText="@Request.GetDisplayDescription(model => model.RegistroTipoId)"
+            <MudSelect @bind-Value="@Request.MovimientoTipoId" For="@(() => Request.MovimientoTipoId)"
+                       Label="@Request.GetDisplayName(model => model.MovimientoTipoId)"
+                       HelperText="@Request.GetDisplayDescription(model => model.MovimientoTipoId)"
                        AdornmentColor="@TextInputDefaults.Color"
                        Margin="@TextInputDefaults.Margin"
                        Variant="@TextInputDefaults.Variant"
                        Immediate="@TextInputDefaults.Inmediate">
-                @foreach (EnumRegistroTipo registroTipo in Enum.GetValues(typeof(EnumRegistroTipo)))
+                @foreach (EnumMovimientoTipo registroTipo in Enum.GetValues(typeof(EnumMovimientoTipo)))
                 {
                     <MudSelectItem Value="@registroTipo">
                         @(registroTipo.GetDisplayName())
@@ -103,6 +104,8 @@
 @code {
     [Inject]
     public IApplicationServices Services { get; set; } = null!;
+    [Inject]
+    public NavigationManager Navigation { get; set; } = null!;
 
     private const string _productoNoBuscado = "No se ha buscado ningún producto.";
     private const string _productoBuscando = "Validando producto...";
@@ -118,7 +121,7 @@
 
     private ProductoMovimientoCreateRequest Request { get; set; } = new()
         {
-            RegistroTipoId = EnumRegistroTipo.Entrada
+            MovimientoTipoId = EnumMovimientoTipo.Entrada
         };
 
     protected override Task OnInitializedAsync()
@@ -164,5 +167,10 @@
         Result<ProductoMovimientoCreateRequest>
         result = await Services.ProductoRegistros
             .InsertarProductoRegistro(createRequest: Request);
+
+        if (result.IsSuccess)
+        {
+            Navigation.Refresh();
+        }
     }
 }

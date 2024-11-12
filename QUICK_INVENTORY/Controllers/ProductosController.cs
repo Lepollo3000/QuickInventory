@@ -11,7 +11,7 @@ namespace QUICK_INVENTORY.Controllers;
 
 [Authorize]
 [ApiController]
-[Route(ApplicationApiEndpoints.Productos.Producto)]
+[Route(ApplicationApiEndpoints.Productos.Principal)]
 public class ProductosController(IApplicationServices services, IApplicationRepositories repositories) : ControllerBase
 {
     private readonly IApplicationServices _services = services;

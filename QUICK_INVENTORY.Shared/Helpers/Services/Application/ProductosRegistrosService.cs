@@ -1,12 +1,11 @@
 ﻿using Ardalis.Result;
 using QUICK_INVENTORY.Client.Data.Services;
-using QUICK_INVENTORY.Shared.Helpers;
 using QUICK_INVENTORY.Shared.Helpers.Interfaces.Services.Application;
 using QUICK_INVENTORY.Shared.Models.Requests;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace QUICK_INVENTORY.Client.Helpers.Services.Application;
+namespace QUICK_INVENTORY.Shared.Helpers.Services.Application;
 
 internal class ProductosRegistrosService(IGeneralService generalService) : IProductoRegistrosService
 {
@@ -40,7 +39,7 @@ internal class ProductosRegistrosService(IGeneralService generalService) : IProd
         }
         catch (Exception)
         {
-            return Result.Error(errorMessage: $"Error inesperado al intentar registrar la {createRequest.RegistroTipoId.GetDisplayName()} de producto.");
+            return Result.Error(errorMessage: $"Error inesperado al intentar registrar la {createRequest.MovimientoTipoId.GetDisplayName()} de producto.");
         }
     }
 }

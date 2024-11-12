@@ -3,6 +3,15 @@
 
 <PageTitle>Productos</PageTitle>
 
+<MudGrid Justify="Justify.FlexEnd" Class="mb-3">
+    <MudButton Color="Color.Primary"
+               Variant="Variant.Filled"
+               Href="@ApplicationPages.Productos.Crear"
+               EndIcon="@Icons.Material.Filled.Add">
+        Alta de Producto
+    </MudButton>
+</MudGrid>
+
 <MudTable T="ProductoTableModel" ServerData="ServerReload" Dense="true" Hover="true">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Productos</MudText>
@@ -40,6 +49,7 @@
         <MudTablePager />
     </PagerContent>
 </MudTable>
+
 
 @code {
     [Inject]

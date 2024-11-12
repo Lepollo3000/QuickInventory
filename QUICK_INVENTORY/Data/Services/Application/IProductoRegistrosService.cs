@@ -6,6 +6,6 @@ namespace QUICK_INVENTORY.Data.Services.Application;
 
 public interface IProductoRegistrosService
 {
-    Task<ProductoRegistro> InsertarProductoRegistro(ProductoMovimientoCreateRequest createRequest, IdentidadUsuario usuario);
-    Task<ProductoRegistroTableModel> ConsultarProductoRegistros();
+    Task<ProductoMovimiento> InsertarProductoRegistro(ProductoMovimientoCreateRequest createRequest, IdentidadUsuario usuario);
+    Task<IEnumerable<ProductoMovimientoTableModel>> ConsultarProductoRegistros();
 }

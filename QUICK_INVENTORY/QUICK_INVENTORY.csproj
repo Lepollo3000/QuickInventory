@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\QUICK_INVENTORY.Shared\QUICK_INVENTORY.Shared.csproj" />
     <ProjectReference Include="..\QUICK_INVENTORY.Client\QUICK_INVENTORY.Client.csproj" />
+    <ProjectReference Include="..\QUICK_INVENTORY.Shared\QUICK_INVENTORY.Shared.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />

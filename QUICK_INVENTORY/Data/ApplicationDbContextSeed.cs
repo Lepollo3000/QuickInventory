@@ -130,21 +130,21 @@ public class ApplicationDbContextSeed : IHostedService
 
     private async Task InsertDefaultRegistroTipos(IdentidadUsuario usuario)
     {
-        IEnumerable<EnumRegistroTipo>
+        IEnumerable<EnumMovimientoTipo>
         temporales = Enum
-            .GetValues(typeof(EnumRegistroTipo))
-            .Cast<EnumRegistroTipo>()
+            .GetValues(typeof(EnumMovimientoTipo))
+            .Cast<EnumMovimientoTipo>()
             .ToList();
 
-        foreach (EnumRegistroTipo temporal in temporales)
+        foreach (EnumMovimientoTipo temporal in temporales)
         {
-            bool existe = await _context.RegistroTipos
+            bool existe = await _context.MovimientoTipos
                 .Where(model => model.Id == temporal)
                 .AnyAsync();
 
             if (!existe)
             {
-                RegistroTipo registroTipo = new(
+                MovimientoTipo registroTipo = new(
                     id: temporal,
                     descripcion: temporal.GetDisplayName(),
                     usuario: usuario);
@@ -153,7 +153,7 @@ public class ApplicationDbContextSeed : IHostedService
             }
         }
 
-        await _context.SaveChangesWithIdentityInsertAsync<RegistroTipo>();
+        await _context.SaveChangesWithIdentityInsertAsync<MovimientoTipo>();
     }
     #endregion
 
