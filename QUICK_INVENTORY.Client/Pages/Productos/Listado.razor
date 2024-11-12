@@ -12,30 +12,19 @@
     </MudButton>
 </MudGrid>
 
-<MudTable T="ProductoTableModel" ServerData="ServerReload" Dense="true" Hover="true">
+<MudDataGrid T="ProductoTableModel" ServerData="ServerReload" Dense="true" Hover="true">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Productos</MudText>
     </ToolBarContent>
 
-    <HeaderContent>
-        <MudTh><MudTableSortLabel SortLabel="Locacion" T="ProductoTableModel">Locacion</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="Nombre" T="ProductoTableModel">Nombre</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="Descripcion" T="ProductoTableModel">Descripción</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="StockMedidaId" T="ProductoTableModel">Medida</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="StockMinimo" T="ProductoTableModel">Stock Minimo</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="StockMaximo" T="ProductoTableModel">Stock Maximo</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="Stock" T="ProductoTableModel">Stock</MudTableSortLabel></MudTh>
-    </HeaderContent>
-
-    <RowTemplate>
-        <MudTd DataLabel="@(context.GetDisplayName(model => model.Locacion))">@context.Locacion</MudTd>
-        <MudTd DataLabel="@(context.GetDisplayName(model => model.Nombre))">@context.Nombre</MudTd>
-        <MudTd DataLabel="@(context.GetDisplayName(model => model.Descripcion))">@context.Descripcion</MudTd>
-        <MudTd DataLabel="@(context.GetDisplayName(model => model.StockMedidaId))">@context.StockMedidaId.GetDisplayName()</MudTd>
-        <MudTd DataLabel="@(context.GetDisplayName(model => model.StockMinimo))">@context.StockMinimo</MudTd>
-        <MudTd DataLabel="@(context.GetDisplayName(model => model.StockMaximo))">@context.StockMaximo</MudTd>
-        <MudTd DataLabel="@(context.GetDisplayName(model => model.Stock))">@context.Stock</MudTd>
-    </RowTemplate>
+    <Columns>
+        <PropertyColumn Property="x => x.Locacion" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.Locacion))" />
+        <PropertyColumn Property="x => x.Nombre" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.Nombre))" />
+        <PropertyColumn Property="x => x.Descripcion" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.Descripcion))" />
+        <PropertyColumn Property="x => x.StockMedidaId" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.StockMedidaId))" />
+        <PropertyColumn Property="x => x.StockMinimo" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.StockMinimo))" />
+        <PropertyColumn Property="x => x.StockMaximo" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.StockMaximo))" />
+    </Columns>
 
     <NoRecordsContent>
         <MudText>No se encontró ningún registro.</MudText>
@@ -46,16 +35,16 @@
     </LoadingContent>
 
     <PagerContent>
-        <MudTablePager />
+        <MudDataGridPager T="ProductoTableModel" />
     </PagerContent>
-</MudTable>
+</MudDataGrid>
 
 
 @code {
     [Inject]
     public IApplicationServices Services { get; set; } = null!;
 
-    private async Task<TableData<ProductoTableModel>> ServerReload(TableState state, CancellationToken token)
+    private async Task<GridData<ProductoTableModel>> ServerReload(GridState<ProductoTableModel> state)
     {
         var data = await Services
             .Productos.ConsultarProductos();
@@ -67,6 +56,6 @@
             .Take(state.PageSize)
             .ToList();
 
-        return new TableData<ProductoTableModel>() { TotalItems = totalItems, Items = pagedData };
+        return new GridData<ProductoTableModel>() { TotalItems = totalItems, Items = pagedData };
     }
 }
