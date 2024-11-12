@@ -6,14 +6,15 @@ using System.Reflection;
 
 namespace QUICK_INVENTORY.Shared.Helpers;
 
-public static class DisplayHelper<TModel> where TModel : class
+public static class DisplayHelper<T> where T : class
 {
-    public static string GetPropertyDisplayName(Expression<Func<TModel, object>> propertyExpression)
+    public static string GetPropertyDisplayName(Expression<Func<T, object>> propertyExpression)
     {
         var memberInfo = GetPropertyInformation(propertyExpression.Body)
             ?? throw new ArgumentException("No property reference expression was found.", nameof(propertyExpression));
 
-        var attribute = GetAttribute<DisplayAttribute>(member: memberInfo, isRequired: false);
+        var attribute = memberInfo
+            .GetAttribute<DisplayAttribute>(false);
 
         if (attribute == null)
         {
@@ -44,24 +45,6 @@ public static class DisplayHelper<TModel> where TModel : class
         }
 
         return null!;
-    }
-
-    private static T GetAttribute<T>(MemberInfo member, bool isRequired)
-    where T : Attribute
-    {
-        var attribute = member.GetCustomAttributes(typeof(TModel), false).SingleOrDefault();
-
-        if (attribute == null && isRequired)
-        {
-            throw new ArgumentException(
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    "The {0} attribute must be defined on member {1}",
-                    typeof(T).Name,
-                    member.Name));
-        }
-
-        return (T)attribute!;
     }
 }
 
@@ -134,5 +117,23 @@ public static class DisplayExtensions
         }
 
         return attribute;
+    }
+
+    public static T GetAttribute<T>(this MemberInfo member, bool isRequired)
+    where T : Attribute
+    {
+        var attribute = member.GetCustomAttributes(typeof(T), false).SingleOrDefault();
+
+        if (attribute == null && isRequired)
+        {
+            throw new ArgumentException(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "The {0} attribute must be defined on member {1}",
+                    typeof(T).Name,
+                    member.Name));
+        }
+
+        return (T)attribute!;
     }
 }

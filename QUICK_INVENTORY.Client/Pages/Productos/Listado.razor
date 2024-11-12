@@ -18,12 +18,12 @@
     </ToolBarContent>
 
     <Columns>
-        <PropertyColumn Property="x => x.Locacion" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.Locacion))" />
-        <PropertyColumn Property="x => x.Nombre" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.Nombre))" />
-        <PropertyColumn Property="x => x.Descripcion" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.Descripcion))" />
-        <PropertyColumn Property="x => x.StockMedidaId" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.StockMedidaId))" />
-        <PropertyColumn Property="x => x.StockMinimo" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.StockMinimo))" />
-        <PropertyColumn Property="x => x.StockMaximo" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.StockMaximo))" />
+        <PropertyColumn Property="model => model.Locacion" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.Locacion))" />
+        <PropertyColumn Property="model => model.Nombre" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.Nombre))" />
+        <PropertyColumn Property="model => model.Descripcion" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.Descripcion))" />
+        <PropertyColumn Property="model => model.StockMedidaId" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.StockMedidaId))" />
+        <PropertyColumn Property="model => model.StockMinimo" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.StockMinimo))" />
+        <PropertyColumn Property="model => model.StockMaximo" Title="@(DisplayHelper<ProductoTableModel>.GetPropertyDisplayName(model => model.StockMaximo))" />
     </Columns>
 
     <NoRecordsContent>
