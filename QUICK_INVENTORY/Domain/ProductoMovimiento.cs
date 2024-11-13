@@ -23,7 +23,7 @@ public class ProductoMovimiento : Entidad
     [ForeignKey(nameof(ProductoId))]
     public virtual Producto Producto { get; set; } = null!;
     [ForeignKey(nameof(MovimientoTipoId))]
-    public virtual MovimientoTipo RegistroTipo { get; set; } = null!;
+    public virtual MovimientoTipo MovimientoTipo { get; set; } = null!;
 
 
     public ProductoMovimiento() : base() { }

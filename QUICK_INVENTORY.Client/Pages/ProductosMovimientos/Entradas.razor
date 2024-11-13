@@ -1,8 +1,62 @@
 ﻿@attribute [Route(ApplicationPages.Productos.Movimientos.Entradas)]
 @attribute [Authorize]
 
-<h3>Listado</h3>
+<PageTitle>Entradas</PageTitle>
+
+<MudGrid Justify="Justify.FlexEnd" Class="mb-3">
+    <MudButton Color="Color.Primary"
+               Variant="Variant.Filled"
+               Href="@ApplicationPages.Productos.Movimientos.Crear"
+               StartIcon="@Icons.Material.Filled.Add">
+        Alta de Movimientos
+    </MudButton>
+</MudGrid>
+
+<MudDataGrid T="ProductoMovimientoTableModel" ServerData="ServerReload" Dense="true" Hover="true">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Entradas</MudText>
+    </ToolBarContent>
+
+    <Columns>
+        <PropertyColumn Property="model => model.Folio" Title="@(DisplayHelper<ProductoMovimientoTableModel>.GetPropertyDisplayName(model => model.Folio))" />
+        <PropertyColumn Property="model => model.Producto" Title="@(DisplayHelper<ProductoMovimientoTableModel>.GetPropertyDisplayName(model => model.Producto))" />
+        <PropertyColumn Property="model => model.MovimientoCantidad" Title="@(DisplayHelper<ProductoMovimientoTableModel>.GetPropertyDisplayName(model => model.MovimientoCantidad))" />
+        <PropertyColumn Property="model => model.NumeroExterno" Title="@(DisplayHelper<ProductoMovimientoTableModel>.GetPropertyDisplayName(model => model.NumeroExterno))" />
+        <PropertyColumn Property="model => model.NumeroInterno" Title="@(DisplayHelper<ProductoMovimientoTableModel>.GetPropertyDisplayName(model => model.NumeroInterno))" />
+    </Columns>
+
+    <NoRecordsContent>
+        <MudText>No se encontró ningún registro.</MudText>
+    </NoRecordsContent>
+
+    <LoadingContent>
+        <MudText>Cargando...</MudText>
+    </LoadingContent>
+
+    <PagerContent>
+        <MudDataGridPager T="ProductoMovimientoTableModel" />
+    </PagerContent>
+</MudDataGrid>
+
 
 @code {
+    [Inject]
+    public IApplicationServices Services { get; set; } = null!;
+
+    private async Task<GridData<ProductoMovimientoTableModel>> ServerReload(GridState<ProductoMovimientoTableModel> state)
+    {
+        var data = await Services
+            .ProductoMovimientos.ConsultarProductoMovimientos(
+                searchRequest: new() { MovimientoTipoId = EnumMovimientoTipo.Entrada });
+
+        var totalItems = data.Value.Count();
+
+        var pagedData = data.Value
+            .Skip(state.Page * state.PageSize)
+            .Take(state.PageSize)
+            .ToList();
+
+        return new GridData<ProductoMovimientoTableModel>() { TotalItems = totalItems, Items = pagedData };
+    }
 
 }

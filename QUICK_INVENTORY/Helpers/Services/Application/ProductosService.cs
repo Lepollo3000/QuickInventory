@@ -34,10 +34,18 @@ public class ProductosService(IApplicationRepositories repositories) : IProducto
             .FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<ProductoTableModel>> ConsultarProductos()
+    public async Task<IEnumerable<ProductoTableModel>> ConsultarProductos(ProductoSearchRequest searchRequest)
     {
-        return await _context.Productos
-            .Where(model => !model.EstaEliminado)
+        IQueryable<Producto> query = _context.Productos
+            .Where(model => !model.EstaEliminado);
+
+        if (searchRequest.CodigoBarras != null)
+        {
+            query = query
+                .Where(model => model.CodigoBarras == searchRequest.CodigoBarras);
+        }
+
+        return await query
             .Select(model =>
                 new ProductoTableModel
                 {

@@ -6,5 +6,5 @@ namespace QUICK_INVENTORY.Client.Data.Services;
 public interface IApplicationServices
 {
     IProductosService Productos { get; }
-    IProductoRegistrosService ProductoRegistros { get; }
+    IProductoMovimientosService ProductoMovimientos { get; }
 }

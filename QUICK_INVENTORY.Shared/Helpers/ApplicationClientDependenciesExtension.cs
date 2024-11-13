@@ -16,7 +16,7 @@ public static class ApplicationClientDependenciesExtension
 
         services.AddScoped<IGeneralService, GeneralService>();
         services.AddScoped<IProductosService, ProductosService>();
-        services.AddScoped<IProductoRegistrosService, ProductosRegistrosService>();
+        services.AddScoped<IProductoMovimientosService, ProductosMovimientosService>();
 
         services.AddScoped<IApplicationServices, ApplicationServices>();
 

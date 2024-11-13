@@ -1,16 +1,21 @@
 ﻿@attribute [Route(ApplicationPages.Productos.Crear)]
 @attribute [Authorize]
 
-<MudGrid Justify="Justify.FlexStart" Class="mb-3">
-    <MudButton Color="Color.Primary"
-               Variant="Variant.Filled"
-               Href="@ApplicationPages.Productos.Listado"
-               StartIcon="@Icons.Material.Filled.ArrowBack">
-        Volver al Listado
-    </MudButton>
-</MudGrid>
-
 <MudGrid Justify="Justify.Center">
+    <MudItem xs="12">
+        <MudGrid Justify="Justify.FlexStart">
+            <MudItem md="2" xs="5">
+                <MudButton Color="Color.Primary"
+                           Variant="Variant.Filled"
+                           FullWidth="true"
+                           Href="@ApplicationPages.Productos.Listado"
+                           StartIcon="@Icons.Material.Filled.ArrowBack">
+                    Productos
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+
     <MudItem md="6" sm="10" xs="12">
         <EditForm Model="@Request" OnValidSubmit="@HandleValidSubmit">
             <DataAnnotationsValidator />

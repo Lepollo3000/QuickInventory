@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace QUICK_INVENTORY.Shared.Helpers;
 
@@ -62,14 +63,6 @@ public static class EnumExtensions
         }
     }
 
-    public static string GetDisplayDescription(this Enum enumValue)
-    {
-        return enumValue.GetType()
-            .GetMember(enumValue.ToString()).First()
-            .GetCustomAttribute<DisplayAttribute>()?
-            .Description ?? enumValue.ToString();
-    }
-
     public static string GetDisplayName(this Enum enumValue)
     {
         return enumValue.GetType()
@@ -84,5 +77,13 @@ public static class EnumExtensions
             .GetMember(enumValue.ToString()).First()
             .GetCustomAttribute<DisplayAttribute>()?
             .ShortName ?? enumValue.ToString();
+    }
+
+    public static string GetDisplayDescription(this Enum enumValue)
+    {
+        return enumValue.GetType()
+            .GetMember(enumValue.ToString()).First()
+            .GetCustomAttribute<DisplayAttribute>()?
+            .Description ?? enumValue.ToString();
     }
 }

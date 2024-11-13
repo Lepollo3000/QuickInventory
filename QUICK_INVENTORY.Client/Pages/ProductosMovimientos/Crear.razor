@@ -5,6 +5,34 @@
 <PageTitle>Movimientos de Inventario</PageTitle>
 
 <MudGrid Justify="Justify.Center">
+    <MudItem xs="12">
+        <MudGrid Justify="Justify.FlexStart">
+            <MudItem md="2" xs="5">
+                <MudButton Color="Color.Primary"
+                           Variant="Variant.Filled"
+                           FullWidth="true"
+                           Href="@ApplicationPages.Productos.Movimientos.Entradas"
+                           StartIcon="@Icons.Material.Filled.ArrowBack">
+                    Entradas
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+    
+    <MudItem xs="12">
+        <MudGrid Justify="Justify.FlexStart">
+            <MudItem md="2" xs="5">
+                <MudButton Color="Color.Primary"
+                           Variant="Variant.Filled"
+                           FullWidth="true"
+                           Href="@ApplicationPages.Productos.Movimientos.Salidas"
+                           StartIcon="@Icons.Material.Filled.ArrowBack">
+                    Salidas
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+
     <MudItem md="6" sm="10" xs="12">
         <EditForm EditContext="@RequestContext" Context="MainForm" OnValidSubmit="@HandleSubmit">
             <DataAnnotationsValidator />
@@ -165,8 +193,8 @@
     private async void HandleSubmit()
     {
         Result<ProductoMovimientoCreateRequest>
-        result = await Services.ProductoRegistros
-            .InsertarProductoRegistro(createRequest: Request);
+        result = await Services.ProductoMovimientos
+            .InsertarProductoMovimiento(createRequest: Request);
 
         if (result.IsSuccess)
         {

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using QUICK_INVENTORY.Data.Repositories;
 using QUICK_INVENTORY.Data.Services;
 using QUICK_INVENTORY.Domain;
@@ -16,6 +15,26 @@ public class ProductosMovimientosController(IApplicationServices services, IAppl
 {
     private readonly IApplicationServices _services = services;
     private readonly IApplicationRepositories _repositories = repositories;
+
+    [HttpGet]
+    public async Task<IActionResult> ObtenerProductoMovimientos([FromQuery] ProductoMovimientoSearchRequest search)
+    {
+        try
+        {
+            var tableModelList = await _repositories
+                .ProductoRegistros.ConsultarMovimientos(search: search);
+
+            return Ok(tableModelList);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 
     [HttpPost]
     public async Task<IActionResult> InsertarProductoRegistro([FromBody] ProductoMovimientoCreateRequest createRequest)

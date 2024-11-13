@@ -36,19 +36,19 @@ internal class ProductosService : IProductosService
                 .GetAsync(requestUri: QueryHelpers
                     .AddQueryString(
                         uri: ApplicationApiEndpoints
-                            .Productos.Busqueda,
+                            .Productos.Principal,
                         queryString: parameters));
 
             if (httpRequestMessage.IsSuccessStatusCode)
             {
                 var response = JsonSerializer
-                    .Deserialize<ProductoTableModel>(
+                    .Deserialize<IEnumerable<ProductoTableModel>>(
                         utf8Json: await httpRequestMessage
                             .Content.ReadAsStreamAsync(),
                         options: _jsonSerializerOptions)
                     ?? throw new InvalidOperationException();
 
-                return Result.Success(response);
+                return Result.Success(response.First());
             }
 
             throw new InvalidOperationException();
@@ -66,7 +66,7 @@ internal class ProductosService : IProductosService
             HttpResponseMessage
             httpRequestMessage = await _httpClient
                 .GetAsync(requestUri: ApplicationApiEndpoints
-                    .Productos.Listado);
+                    .Productos.Principal);
 
             if (httpRequestMessage.IsSuccessStatusCode)
             {
@@ -96,7 +96,7 @@ internal class ProductosService : IProductosService
             httpRequestMessage = await _httpClient
                 .PostAsJsonAsync(
                     requestUri: ApplicationApiEndpoints
-                        .Productos.Crear,
+                        .Productos.Principal,
                     value: request);
 
             if (httpRequestMessage.IsSuccessStatusCode)

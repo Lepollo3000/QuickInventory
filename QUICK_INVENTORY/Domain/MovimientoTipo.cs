@@ -15,7 +15,7 @@ public class MovimientoTipo : EntidadPrimaria<EnumMovimientoTipo>
     public required string Descripcion { get; set; }
 
 
-    [InverseProperty(nameof(ProductoMovimiento.RegistroTipo))]
+    [InverseProperty(nameof(ProductoMovimiento.MovimientoTipo))]
     public virtual ICollection<ProductoMovimiento> Registros { get; set; } = null!;
 
 

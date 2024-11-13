@@ -18,28 +18,13 @@ public class ProductosController(IApplicationServices services, IApplicationRepo
     private readonly IApplicationRepositories _repositories = repositories;
 
     [HttpGet]
-    public async Task<IActionResult> ObtenerProducto([FromQuery] ProductoSearchRequest request)
-    {
-        try
-        {
-            var tableModel = await _services
-                .Productos.ConsultarProducto(request);
-
-            return Ok(tableModel);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
-    }
-
-    [HttpGet("listado")]
-    public async Task<IActionResult> ObtenerProductos()
+    public async Task<IActionResult> ObtenerProductos([FromQuery] ProductoSearchRequest searchRequest)
     {
         try
         {
             var tableModelList = await _services
-                .Productos.ConsultarProductos();
+                .Productos.ConsultarProductos(
+                    searchRequest: searchRequest);
 
             return Ok(tableModelList);
         }
