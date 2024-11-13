@@ -2,18 +2,30 @@
 
 <AuthorizeView>
     <Authorized>
-        <a href="authentication/profile">Hola, @context.User.Identity?.Name!</a>
+        @* <MudButton Color="Color.Inherit"
+                   Href="account/manage">
+            Hola, @(context.User.Identity?.Name)!
+        </MudButton> *@
+
+        <MudButton Color="Color.Inherit">
+            Hola, @(context.User.Identity?.Name)!
+        </MudButton>
+
         <form action="Account/Logout" method="post">
             <AntiforgeryToken />
             <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-            <button type="submit" class="nav-link">
-                <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
-            </button>
+            <MudButton Color="Color.Inherit"
+                       ButtonType="ButtonType.Submit">
+                Logout
+            </MudButton>
         </form>
     </Authorized>
 
     <NotAuthorized>
-        <button class="nav-link btn btn-link" @onclick="BeginLogIn">Iniciar sesión</button>
+        <MudButton Color="Color.Inherit"
+                   Href="@($"account/login?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}")">
+            Iniciar Sesión
+        </MudButton>
     </NotAuthorized>
 </AuthorizeView>
 
