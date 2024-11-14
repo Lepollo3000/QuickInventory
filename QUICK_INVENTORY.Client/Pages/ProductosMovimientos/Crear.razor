@@ -18,7 +18,7 @@
             </MudItem>
         </MudGrid>
     </MudItem>
-    
+
     <MudItem xs="12">
         <MudGrid Justify="Justify.FlexStart">
             <MudItem md="2" xs="5">
@@ -52,14 +52,33 @@
                               Immediate="@TextInputDefaults.Inmediate" />
 
                 <MudCard Outlined="true" Elevation="0" Class="mb-3">
-                    <MudText Color="Color.Secondary" Align="Align.Start" Class="m-2 mx-3">@(Producto)</MudText>
+                    <MudText Color="Color.Secondary"
+                             Align="Align.Start"
+                             Class="m-2 mx-3">
+                        @(Producto)
+                    </MudText>
                 </MudCard>
 
                 <MudButton ButtonType="ButtonType.Submit"
+                           Disabled="@ProcesandoProducto"
                            Variant="Variant.Filled"
                            Color="Color.Primary"
                            FullWidth="true">
-                    Buscar Producto
+                    @if (ProcesandoProducto)
+                    {
+                        <MudProgressCircular Class="mr-3"
+                                             Size="Size.Small"
+                                             Color="Color.Primary"
+                                             Indeterminate="true" />
+
+                        <MudText Color="Color.Primary">
+                            @(_productoBuscando.ToUpper())
+                        </MudText>
+                    }
+                    else
+                    {
+                        @("Buscar Producto")
+                    }
                 </MudButton>
             </EditForm>
 
@@ -130,10 +149,15 @@
 </MudGrid>
 
 @code {
+    [CascadingParameter]
+    public MudTheme ApplicationTheme { get; set; } = null!;
+
     [Inject]
     public IApplicationServices Services { get; set; } = null!;
     [Inject]
     public NavigationManager Navigation { get; set; } = null!;
+    [Inject]
+    private SweetAlertService SwalService { get; set; } = null!;
 
     private const string _productoNoBuscado = "No se ha buscado ningún producto.";
     private const string _productoBuscando = "Validando producto...";
@@ -141,6 +165,8 @@
 
 
     private string Producto { get; set; } = _productoNoBuscado;
+
+    private bool ProcesandoProducto { get; set; } = false;
 
     private ProductoSearchRequest SearchRequest { get; set; } = new();
 
@@ -164,7 +190,11 @@
         Producto = _productoBuscando;
         Request.ProductoId = default;
 
+        ProcesandoProducto = true;
+
         StateHasChanged();
+
+        await Task.Delay(1000);
 
         Result<ProductoTableModel>
         result = await Services.Productos
@@ -187,18 +217,33 @@
             SearchRequest.CodigoBarras = null!;
         }
 
+        ProcesandoProducto = false;
+
         StateHasChanged();
     }
 
-    private async void HandleSubmit()
+    private async Task HandleSubmit(EditContext context)
     {
-        Result<ProductoMovimientoCreateRequest>
-        result = await Services.ProductoMovimientos
-            .InsertarProductoMovimiento(createRequest: Request);
+        await SwalService.AlertaProcesoEnCarga(
+            theme: ApplicationTheme,
+            accionPorRealizar: async () =>
+            {
+                Result<ProductoMovimientoCreateRequest> result = await Services
+                    .ProductoMovimientos.InsertarProductoMovimiento(createRequest: Request);
 
-        if (result.IsSuccess)
-        {
-            Navigation.Refresh();
-        }
+                if (result.IsSuccess)
+                {
+                    await SwalService.AlertaExito(theme: ApplicationTheme,
+                        mensaje: "El producto ha sido dado de alta exitosamente.",
+                        accionAlCerrar: async () =>
+                        {
+                            Navigation.Refresh();
+                        });
+                }
+                else
+                {
+                    await SwalService.AlertaErrorInesperado(theme: ApplicationTheme);
+                }
+            });
     }
 }

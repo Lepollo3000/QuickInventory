@@ -39,10 +39,12 @@ public class ProductosService(IApplicationRepositories repositories) : IProducto
         IQueryable<Producto> query = _context.Productos
             .Where(model => !model.EstaEliminado);
 
-        if (searchRequest.CodigoBarras != null)
+        if (searchRequest.CodigoBarras != null
+        || searchRequest.BuscarIndividualmente)
         {
             query = query
-                .Where(model => model.CodigoBarras == searchRequest.CodigoBarras);
+                .Where(model => model.CodigoBarras
+                    == (searchRequest.CodigoBarras ?? string.Empty));
         }
 
         return await query

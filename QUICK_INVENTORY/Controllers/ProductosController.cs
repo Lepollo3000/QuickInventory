@@ -47,6 +47,23 @@ public class ProductosController(IApplicationServices services, IApplicationRepo
                     request: request,
                     usuario: usuario);
 
+            InventarioCorte? corteActual = await _repositories
+                .Inventario.ConsultarInventarioCorteActual();
+
+            if (corteActual == null)
+            {
+                corteActual = new(usuario: usuario);
+
+                _repositories.General.Context.Add(corteActual);
+            }
+
+            InventarioCorteDetalle corteDetalle = new(
+                producto: producto,
+                corte: corteActual,
+                usuario: usuario);
+
+            _repositories.General.Context.Add(corteDetalle);
+
             await _repositories.General.Context.SaveChangesAsync();
 
             ProductoTableModel tableModel = new()

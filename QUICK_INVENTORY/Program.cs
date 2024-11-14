@@ -52,11 +52,13 @@ builder.Services
 
 builder.Services.AddScoped<IGeneralService, GeneralService>();
 builder.Services.AddScoped<IProductosService, ProductosService>();
-builder.Services.AddScoped<IProductoRegistrosService, ProductoRegistrosService>();
+builder.Services.AddScoped<IInventarioService, InventarioService>();
+builder.Services.AddScoped<IProductoMovimientosService, ProductoRegistrosService>();
 
 builder.Services.AddScoped<IGeneralRepository, GeneralRepository>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
-builder.Services.AddScoped<IProductoRegistrosRepository, ProductoRegistrosRepository>();
+builder.Services.AddScoped<IInventarioRepository, InventarioRepository>();
+builder.Services.AddScoped<IProductoMovimientosRepository, ProductoMovimientosRepository>();
 
 builder.Services.AddScoped<IApplicationServices, ApplicationServices>();
 builder.Services.AddScoped<IApplicationRepositories, ApplicationRepositories>();

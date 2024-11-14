@@ -6,5 +6,6 @@ public interface IApplicationRepositories
 {
     public IGeneralRepository General { get; }
     public IProductoRepository Productos { get; }
-    public IProductoRegistrosRepository ProductoRegistros { get; }
+    public IInventarioRepository Inventario { get; }
+    public IProductoMovimientosRepository ProductoRegistros { get; }
 }

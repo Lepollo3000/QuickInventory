@@ -2,6 +2,5 @@
 
 public class GeneralErrors
 {
-    public const string CampoRequerido = "Campo requerido.";
-    public const string CampoNoDebeSerCero = "El campo debe ser mayor a 0.";
+    public const string ErrorInesperado = "Lo sentimos, ocurrió un error inesperado. Intente de nuevo más tarde o consulte a un administrador.";
 }

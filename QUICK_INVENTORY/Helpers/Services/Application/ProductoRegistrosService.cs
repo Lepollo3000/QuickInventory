@@ -6,7 +6,7 @@ using QUICK_INVENTORY.Shared.Models.TableModels;
 
 namespace QUICK_INVENTORY.Helpers.Services.Application;
 
-public class ProductoRegistrosService(IApplicationRepositories repositories) : IProductoRegistrosService
+public class ProductoRegistrosService(IApplicationRepositories repositories) : IProductoMovimientosService
 {
     private readonly IApplicationRepositories _repositories = repositories;
 

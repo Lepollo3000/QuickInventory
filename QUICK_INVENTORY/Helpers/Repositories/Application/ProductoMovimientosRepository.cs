@@ -7,7 +7,7 @@ using QUICK_INVENTORY.Shared.Models.TableModels;
 
 namespace QUICK_INVENTORY.Helpers.Repositories.Application;
 
-public class ProductoRegistrosRepository(IGeneralRepository generalRepository) : IProductoRegistrosRepository
+public class ProductoMovimientosRepository(IGeneralRepository generalRepository) : IProductoMovimientosRepository
 {
     private readonly ApplicationDbContext _context = generalRepository.Context;
 

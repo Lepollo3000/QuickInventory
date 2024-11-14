@@ -4,7 +4,7 @@ using QUICK_INVENTORY.Shared.Models.TableModels;
 
 namespace QUICK_INVENTORY.Data.Services.Application;
 
-public interface IProductoRegistrosService
+public interface IProductoMovimientosService
 {
     Task<ProductoMovimiento> InsertarProductoRegistro(ProductoMovimientoCreateRequest createRequest, IdentidadUsuario usuario);
     Task<IEnumerable<ProductoMovimientoTableModel>> ConsultarProductoRegistros();

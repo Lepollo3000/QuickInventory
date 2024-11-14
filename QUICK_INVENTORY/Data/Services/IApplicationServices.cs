@@ -6,5 +6,6 @@ public interface IApplicationServices
 {
     IGeneralService GeneralService { get; }
     IProductosService Productos { get; }
-    IProductoRegistrosService ProductoRegistros { get; }
+    IInventarioService Inventario { get; }
+    IProductoMovimientosService ProductoMovimientos { get; }
 }

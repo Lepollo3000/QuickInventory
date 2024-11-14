@@ -112,10 +112,15 @@
 </MudGrid>
 
 @code {
+    [CascadingParameter]
+    public MudTheme ApplicationTheme { get; set; } = null!;
+
     [Inject]
     public IApplicationServices Services { get; set; } = null!;
     [Inject]
     public NavigationManager Navigation { get; set; } = null!;
+    [Inject]
+    private SweetAlertService SwalService { get; set; } = null!;
 
     private ProductoCreateRequest Request { get; set; } = new()
         {
@@ -124,12 +129,26 @@
 
     private async Task HandleValidSubmit(EditContext context)
     {
-        Result<ProductoTableModel> result = await Services
-            .Productos.InsertarProducto(request: Request);
+        await SwalService.AlertaProcesoEnCarga(
+            theme: ApplicationTheme,
+            accionPorRealizar: async () =>
+            {
+                Result<ProductoTableModel> result = await Services
+                    .Productos.InsertarProducto(request: Request);
 
-        if (result.IsSuccess)
-        {
-            Navigation.NavigateTo(ApplicationPages.Productos.Listado);
-        }
+                if (result.IsSuccess)
+                {
+                    await SwalService.AlertaExito(theme: ApplicationTheme,
+                        mensaje: "El producto ha sido dado de alta exitosamente.",
+                        accionAlCerrar: async () =>
+                        {
+                            Navigation.NavigateTo(ApplicationPages.Productos.Listado);
+                        });
+                }
+                else
+                {
+                    await SwalService.AlertaErrorInesperado(theme: ApplicationTheme);
+                }
+            });
     }
 }

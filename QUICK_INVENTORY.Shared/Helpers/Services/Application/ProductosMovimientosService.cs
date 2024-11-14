@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using Microsoft.AspNetCore.WebUtilities;
-using QUICK_INVENTORY.Client.Data.Services;
+using QUICK_INVENTORY.Shared.Helpers.Interfaces.Services;
 using QUICK_INVENTORY.Shared.Helpers.Interfaces.Services.Application;
 using QUICK_INVENTORY.Shared.Models.Requests;
 using QUICK_INVENTORY.Shared.Models.TableModels;

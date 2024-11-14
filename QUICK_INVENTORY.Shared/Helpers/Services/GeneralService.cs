@@ -1,4 +1,4 @@
-﻿using QUICK_INVENTORY.Client.Data.Services;
+﻿using QUICK_INVENTORY.Shared.Helpers.Interfaces.Services;
 using System.Text.Json;
 
 namespace QUICK_INVENTORY.Client.Helpers.Services;

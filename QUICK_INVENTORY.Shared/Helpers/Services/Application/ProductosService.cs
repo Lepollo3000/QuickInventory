@@ -1,8 +1,8 @@
 ﻿using Ardalis.Result;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
-using QUICK_INVENTORY.Client.Data.Services;
 using QUICK_INVENTORY.Client.Data.Services.Application;
+using QUICK_INVENTORY.Shared.Helpers.Interfaces.Services;
 using QUICK_INVENTORY.Shared.Models.Requests;
 using QUICK_INVENTORY.Shared.Models.TableModels;
 using System.Net.Http.Json;
@@ -28,7 +28,8 @@ internal class ProductosService : IProductosService
         {
             var parameters = new Dictionary<string, string?>
             {
-                { nameof(request.CodigoBarras).ToLower(), request.CodigoBarras }
+                { nameof(request.CodigoBarras).ToLower(), request.CodigoBarras },
+                { nameof(request.BuscarIndividualmente).ToLower(), true.ToString() }
             };
 
             HttpResponseMessage
@@ -51,11 +52,11 @@ internal class ProductosService : IProductosService
                 return Result.Success(response.First());
             }
 
-            throw new InvalidOperationException();
+            return Result.Error(errorMessage: GeneralErrors.ErrorInesperado);
         }
         catch (Exception)
         {
-            return Result.Error(errorMessage: "Error inesperado al intentar obtener el listado de productos.");
+            return Result.Error(errorMessage: GeneralErrors.ErrorInesperado);
         }
     }
 
@@ -80,11 +81,11 @@ internal class ProductosService : IProductosService
                 return Result.Success(response);
             }
 
-            throw new InvalidOperationException();
+            return Result.Error(errorMessage: GeneralErrors.ErrorInesperado);
         }
         catch (Exception)
         {
-            return Result.Error(errorMessage: "Error inesperado al intentar obtener el listado de productos.");
+            return Result.Error(errorMessage: GeneralErrors.ErrorInesperado);
         }
     }
 
@@ -111,11 +112,11 @@ internal class ProductosService : IProductosService
                 return Result.Success(response);
             }
 
-            throw new InvalidOperationException();
+            return Result.Error(errorMessage: GeneralErrors.ErrorInesperado);
         }
         catch (Exception)
         {
-            return Result.Error(errorMessage: "Error inesperado al intentar insertar el producto.");
+            return Result.Error(errorMessage: GeneralErrors.ErrorInesperado);
         }
     }
 }

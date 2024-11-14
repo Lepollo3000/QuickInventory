@@ -49,7 +49,7 @@ public class ProductosMovimientosController(IApplicationServices services, IAppl
                 ?? throw new ArgumentException("El producto ingresado no se encontró o no existe.");
 
             ProductoMovimiento productoRegistro = await _services
-                .ProductoRegistros.InsertarProductoRegistro(
+                .ProductoMovimientos.InsertarProductoRegistro(
                     createRequest: createRequest,
                     usuario: usuario);
 
