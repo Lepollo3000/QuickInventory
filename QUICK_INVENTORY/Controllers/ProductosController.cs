@@ -28,6 +28,10 @@ public class ProductosController(IApplicationServices services, IApplicationRepo
 
             return Ok(tableModelList);
         }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
         catch (Exception ex)
         {
             return StatusCode(500, ex.Message);
@@ -63,7 +67,7 @@ public class ProductosController(IApplicationServices services, IApplicationRepo
                 usuario: usuario);
 
             _repositories.General.Context.Add(corteDetalle);
-
+                
             await _repositories.General.Context.SaveChangesAsync();
 
             ProductoTableModel tableModel = new()
@@ -79,6 +83,10 @@ public class ProductosController(IApplicationServices services, IApplicationRepo
             };
 
             return Ok(tableModel);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {

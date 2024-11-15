@@ -51,8 +51,10 @@ internal class ProductosService : IProductosService
 
                 return Result.Success(response.First());
             }
-
-            return Result.Error(errorMessage: GeneralErrors.ErrorInesperado);
+            else
+            {
+                return await httpRequestMessage.Content.GetHttpError();
+            }
         }
         catch (Exception)
         {
@@ -80,8 +82,10 @@ internal class ProductosService : IProductosService
 
                 return Result.Success(response);
             }
-
-            return Result.Error(errorMessage: GeneralErrors.ErrorInesperado);
+            else
+            {
+                return await httpRequestMessage.Content.GetHttpError();
+            }
         }
         catch (Exception)
         {
@@ -111,8 +115,10 @@ internal class ProductosService : IProductosService
 
                 return Result.Success(response);
             }
-
-            return Result.Error(errorMessage: GeneralErrors.ErrorInesperado);
+            else
+            {
+                return await httpRequestMessage.Content.GetHttpError();
+            }
         }
         catch (Exception)
         {

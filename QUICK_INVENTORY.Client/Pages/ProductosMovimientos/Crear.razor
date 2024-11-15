@@ -242,7 +242,9 @@
                 }
                 else
                 {
-                    await SwalService.AlertaErrorInesperado(theme: ApplicationTheme);
+                    await SwalService.AlertaError(
+                        theme: ApplicationTheme,
+                        mensaje: result.Errors.First());
                 }
             });
     }

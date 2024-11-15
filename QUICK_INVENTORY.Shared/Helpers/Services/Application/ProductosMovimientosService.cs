@@ -42,8 +42,10 @@ internal class ProductosMovimientosService(IGeneralService generalService) : IPr
 
                 return Result.Success(response);
             }
-
-            throw new InvalidOperationException();
+            else
+            {
+                return await httpRequestMessage.Content.GetHttpError();
+            }
         }
         catch (Exception)
         {
@@ -72,8 +74,10 @@ internal class ProductosMovimientosService(IGeneralService generalService) : IPr
 
                 return Result.Success(response);
             }
-
-            throw new InvalidOperationException();
+            else
+            {
+                return await httpRequestMessage.Content.GetHttpError();
+            }
         }
         catch (Exception)
         {

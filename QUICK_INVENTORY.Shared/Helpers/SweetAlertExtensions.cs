@@ -38,18 +38,23 @@ public static class SweetAlertExtensions
         });
     }
 
-    public static async Task<SweetAlertResult> AlertaErrorInesperado(this SweetAlertService sweetAlert, MudTheme theme)
+    public static async Task<SweetAlertResult> AlertaError(this SweetAlertService sweetAlert, MudTheme theme, string mensaje)
     {
         return await sweetAlert.FireAsync(new SweetAlertOptions
         {
             Icon = SweetAlertIcon.Error,
             Title = "Algo salió mal",
             Html = $@"<div class=""mx-4 my-3"" style=""text-align: justify"">
-                    {GeneralErrors.ErrorInesperado}
+                    {mensaje}
                 </div>",
             ShowConfirmButton = true,
             ConfirmButtonColor = theme.PaletteLight.Primary.Value,
             ConfirmButtonText = "Entendido"
         });
+    }
+
+    public static async Task<SweetAlertResult> AlertaErrorInesperado(this SweetAlertService sweetAlert, MudTheme theme)
+    {
+        return await sweetAlert.AlertaError(theme: theme, mensaje: GeneralErrors.ErrorInesperado);
     }
 }
