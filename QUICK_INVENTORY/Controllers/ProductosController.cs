@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QUICK_INVENTORY.Data.Repositories;
 using QUICK_INVENTORY.Data.Services;
 using QUICK_INVENTORY.Domain;
@@ -16,6 +17,38 @@ public class ProductosController(IApplicationServices services, IApplicationRepo
 {
     private readonly IApplicationServices _services = services;
     private readonly IApplicationRepositories _repositories = repositories;
+
+    [HttpGet("warnings/{productoId}")]
+    public async Task<IActionResult> WarningsProducto(int productoId)
+    {
+        try
+        {
+            Producto producto = await _repositories.General.Context.Productos
+                .Where(model => !model.EstaEliminado)
+                .Where(model => model.Id == productoId)
+                .FirstOrDefaultAsync()
+                ?? throw new ArgumentException("El producto ingresado no se encontró o no existe.");
+
+            if (producto.Stock <= producto.StockMinimo)
+            {
+                return BadRequest($"El producto ha alcanzado su nivel de stock mínimo, se recomienda ordenar más de éste.");
+            }
+            else if(producto.Stock >= producto.StockMaximo)
+            {
+                return BadRequest($"El producto ha alcanzado su nivel de stock máximo, no se recomienda ordenar más de éste.");
+            }
+
+            return NoContent();
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 
     [HttpGet]
     public async Task<IActionResult> ObtenerProductos([FromQuery] ProductoSearchRequest searchRequest)
@@ -67,7 +100,7 @@ public class ProductosController(IApplicationServices services, IApplicationRepo
                 usuario: usuario);
 
             _repositories.General.Context.Add(corteDetalle);
-                
+
             await _repositories.General.Context.SaveChangesAsync();
 
             ProductoTableModel tableModel = new()

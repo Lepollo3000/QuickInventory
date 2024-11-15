@@ -1,0 +1,78 @@
+﻿@attribute [Route(ApplicationPages.Inventario.Corte.Actual)]
+@attribute [Authorize]
+
+<PageTitle>Productos</PageTitle>
+
+<MudGrid Justify="Justify.FlexEnd" Class="mb-3">
+    <MudButton Color="Color.Primary"
+               Variant="Variant.Filled"
+               Href="@ApplicationPages.Productos.Crear"
+               StartIcon="@Icons.Material.Filled.Add">
+        Alta de Productos
+    </MudButton>
+</MudGrid>
+
+<MudDataGrid T="InventarioDetalleTableModel" ServerData="ServerReload" Dense="true" Hover="true">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Productos</MudText>
+    </ToolBarContent>
+
+    <Columns>
+        <PropertyColumn Property="model => model.Locacion" Title="@(DisplayHelper<InventarioDetalleTableModel>.GetPropertyDisplayName(model => model.Locacion))" />
+        <PropertyColumn Property="model => model.Nombre" Title="@(DisplayHelper<InventarioDetalleTableModel>.GetPropertyDisplayName(model => model.Nombre))" />
+        @* <PropertyColumn Property="model => model.Descripcion" Title="@(DisplayHelper<InventarioDetalleTableModel>.GetPropertyDisplayName(model => model.Descripcion))" /> *@
+        <PropertyColumn Property="model => model.StockMinimo" Title="@(DisplayHelper<InventarioDetalleTableModel>.GetPropertyDisplayName(model => model.StockMinimo))" />
+        <PropertyColumn Property="model => model.StockMaximo" Title="@(DisplayHelper<InventarioDetalleTableModel>.GetPropertyDisplayName(model => model.StockMaximo))" />
+        <PropertyColumn Property="model => model.StockInicial" Title="@(DisplayHelper<InventarioDetalleTableModel>.GetPropertyDisplayName(model => model.StockInicial))" />
+        <PropertyColumn Property="model => model" Title="Punto de Orden">
+            <CellTemplate>
+                @if (context.Item.StockMinimo >= context.Item.StockFinal)
+                {
+                    <MudAlert Severity="Severity.Error" Variant="Variant.Filled" NoIcon="true" Dense="true">Ordenar</MudAlert>
+                }
+                else if (context.Item.StockMaximo <= context.Item.StockFinal)
+                {
+                    <MudAlert Severity="Severity.Error" Variant="Variant.Filled" NoIcon="true" Dense="true">Límite alcanzado</MudAlert>
+                }
+                else
+                {
+                    <MudAlert Severity="Severity.Success" Variant="Variant.Filled" NoIcon="true" Dense="true">Ok</MudAlert>
+                }
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="model => model.StockFinal" Title="@(DisplayHelper<InventarioDetalleTableModel>.GetPropertyDisplayName(model => model.StockFinal!))" />
+        <PropertyColumn Property="model => model.StockMedida" Title="@(DisplayHelper<InventarioDetalleTableModel>.GetPropertyDisplayName(model => model.StockMedida))" />
+    </Columns>
+
+    <NoRecordsContent>
+        <MudText>No se encontró ningún registro.</MudText>
+    </NoRecordsContent>
+
+    <LoadingContent>
+        <MudText>Cargando...</MudText>
+    </LoadingContent>
+
+    <PagerContent>
+        <MudDataGridPager T="InventarioDetalleTableModel" />
+    </PagerContent>
+</MudDataGrid>
+
+@code {
+    [Inject]
+    public IApplicationServices Services { get; set; } = null!;
+
+    private async Task<GridData<InventarioDetalleTableModel>> ServerReload(GridState<InventarioDetalleTableModel> state)
+    {
+        var data = await Services
+            .InventarioCortes.ConsultarDetallesCorteActual();
+
+        var totalItems = data.Value.Count();
+
+        var pagedData = data.Value
+            .Skip(state.Page * state.PageSize)
+            .Take(state.PageSize)
+            .ToList();
+
+        return new GridData<InventarioDetalleTableModel>() { TotalItems = totalItems, Items = pagedData };
+    }
+}

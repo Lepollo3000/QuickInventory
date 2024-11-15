@@ -8,9 +8,23 @@ public class ApplicationApiEndpoints
     {
         public const string Principal = $"{Home}/productos";
 
+        public const string Warnings = $"{Principal}/warnings";
+
         public class Movimientos
         {
             public const string Principal = $"{Productos.Principal}/movimientos";
+        }
+    }
+
+    public class Inventario
+    {
+        public const string Principal = $"{Home}/inventario";
+
+        public class Cortes
+        {
+            public const string Principal = $"{Inventario.Principal}/cortes";
+
+            public const string Actual = $"{Principal}/actual";
         }
     }
 }

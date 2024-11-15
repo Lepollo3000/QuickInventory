@@ -16,6 +16,6 @@ public class InventarioRepository(IGeneralRepository generalRepository) : IInven
             .Where(model => !model.EstaEliminado)
             .Where(model => model.FechaFin == null)
             .FirstOrDefaultAsync();
-            //?? throw new ArgumentException("No hay un corte actual de inventario. Verifique si hay algún producto en existencia o contacte a un administrador.");
+            //?? throw new ArgumentException("No hay un corte actual de inventario. Verifique si se ha dado de alta algún producto o contacte a un administrador.");
     }
 }

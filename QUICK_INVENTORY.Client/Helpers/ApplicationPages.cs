@@ -25,15 +25,17 @@ internal static class ApplicationPages
 
     public static class Inventario
     {
-        private const string Principal = $"{Home}/inventario";
+        private const string Principal = $"{Home}inventario";
 
         public const string Listado = $"{Principal}";
 
         public static class Corte
         {
-            public const string Principal = $"{Inventario.Principal}/cortes";
+            private const string Principal = $"{Inventario.Principal}/cortes";
 
             public const string Listado = $"{Principal}";
+
+            public const string Actual = $"{Principal}/actual";
             public const string Crear = $"{Principal}/crear";
         }
     }

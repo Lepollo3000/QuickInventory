@@ -9,4 +9,5 @@ public interface IProductosService
     Task<Result<ProductoTableModel>> ConsultarProducto(ProductoSearchRequest request);
     Task<Result<IEnumerable<ProductoTableModel>>> ConsultarProductos();
     Task<Result<ProductoTableModel>> InsertarProducto(ProductoCreateRequest request);
+    Task<Result> ConsultarProductoWarnings(int productoId);
 }

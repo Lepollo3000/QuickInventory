@@ -194,8 +194,6 @@
 
         StateHasChanged();
 
-        await Task.Delay(1000);
-
         Result<ProductoTableModel>
         result = await Services.Productos
             .ConsultarProducto(request: SearchRequest);
@@ -233,12 +231,29 @@
 
                 if (result.IsSuccess)
                 {
-                    await SwalService.AlertaExito(theme: ApplicationTheme,
-                        mensaje: "El producto ha sido dado de alta exitosamente.",
-                        accionAlCerrar: async () =>
-                        {
-                            Navigation.Refresh();
-                        });
+                    Result warningResult = await Services
+                        .Productos.ConsultarProductoWarnings(
+                            productoId: Request.ProductoId);
+
+                    if (warningResult.IsSuccess)
+                    {
+                        await SwalService.AlertaExito(theme: ApplicationTheme,
+                            mensaje: "El movimiento ha sido dado de alta exitosamente.",
+                            accionAlCerrar: async () =>
+                            {
+                                Navigation.Refresh(forceReload: true);
+                            });
+                    }
+                    else
+                    {
+                        await SwalService.AlertaError(
+                            theme: ApplicationTheme,
+                            mensaje: warningResult.Errors.First(),
+                            accionAlCerrar: async () =>
+                            {
+                                Navigation.Refresh(forceReload: true);
+                            });
+                    }
                 }
                 else
                 {

@@ -4,6 +4,7 @@ using QUICK_INVENTORY.Data.Repositories;
 using QUICK_INVENTORY.Data.Services;
 using QUICK_INVENTORY.Domain;
 using QUICK_INVENTORY.Shared.Helpers;
+using QUICK_INVENTORY.Shared.Models;
 using QUICK_INVENTORY.Shared.Models.Requests;
 
 namespace QUICK_INVENTORY.Controllers;
@@ -53,7 +54,14 @@ public class ProductosMovimientosController(IApplicationServices services, IAppl
                     createRequest: createRequest,
                     usuario: usuario);
 
-            producto.Stock += productoRegistro.MovimientoCantidad;
+            if (productoRegistro.MovimientoTipoId == EnumMovimientoTipo.Salida)
+            {
+                producto.Stock -= productoRegistro.MovimientoCantidad;
+            }
+            else if (productoRegistro.MovimientoTipoId == EnumMovimientoTipo.Entrada)
+            {
+                producto.Stock += productoRegistro.MovimientoCantidad;
+            }
 
             await _repositories.General.Context.SaveChangesAsync();
 

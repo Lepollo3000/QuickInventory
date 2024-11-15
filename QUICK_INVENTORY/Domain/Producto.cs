@@ -28,7 +28,7 @@ public class Producto : EntidadPrimaria<int>
 
 
     [InverseProperty(nameof(ProductoMovimiento.Producto))]
-    public virtual ICollection<ProductoMovimiento> Registros { get; set; } = null!;
+    public virtual ICollection<ProductoMovimiento> Movimientos { get; set; } = null!;
     [InverseProperty(nameof(InventarioCorteDetalle.Producto))]
     public virtual ICollection<InventarioCorteDetalle> InventarioCortes { get; set; } = null!;
 

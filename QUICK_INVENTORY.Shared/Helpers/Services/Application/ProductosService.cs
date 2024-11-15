@@ -125,4 +125,27 @@ internal class ProductosService : IProductosService
             return Result.Error(errorMessage: GeneralErrors.ErrorInesperado);
         }
     }
+
+    public async Task<Result> ConsultarProductoWarnings(int productoId)
+    {
+        try
+        {
+            HttpResponseMessage
+            httpRequestMessage = await _httpClient
+                .GetAsync($"{ApplicationApiEndpoints.Productos.Warnings}/{productoId}");
+
+            if (httpRequestMessage.IsSuccessStatusCode)
+            {
+                return Result.Success();
+            }
+            else
+            {
+                return await httpRequestMessage.Content.GetHttpError();
+            }
+        }
+        catch (Exception)
+        {
+            return Result.Error(errorMessage: GeneralErrors.ErrorInesperado);
+        }
+    }
 }

@@ -38,7 +38,7 @@ public static class SweetAlertExtensions
         });
     }
 
-    public static async Task<SweetAlertResult> AlertaError(this SweetAlertService sweetAlert, MudTheme theme, string mensaje)
+    public static async Task<SweetAlertResult> AlertaError(this SweetAlertService sweetAlert, MudTheme theme, string mensaje, Func<Task>? accionAlCerrar = null)
     {
         return await sweetAlert.FireAsync(new SweetAlertOptions
         {
@@ -49,7 +49,8 @@ public static class SweetAlertExtensions
                 </div>",
             ShowConfirmButton = true,
             ConfirmButtonColor = theme.PaletteLight.Primary.Value,
-            ConfirmButtonText = "Entendido"
+            ConfirmButtonText = "Entendido",
+            DidClose = new SweetAlertCallback(accionAlCerrar)
         });
     }
 
