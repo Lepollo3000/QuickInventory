@@ -38,6 +38,22 @@ public static class SweetAlertExtensions
         });
     }
 
+    public static async Task<SweetAlertResult> AlertaAdvertencia(this SweetAlertService sweetAlert, MudTheme theme, string mensaje, Func<Task>? accionAlCerrar = null)
+    {
+        return await sweetAlert.FireAsync(new SweetAlertOptions
+        {
+            Icon = SweetAlertIcon.Warning,
+            Title = "Para tomar en cuenta",
+            Html = $@"<div class=""mx-4 my-3"" style=""text-align: justify"">
+                    {mensaje}
+                </div>",
+            ShowConfirmButton = true,
+            ConfirmButtonColor = theme.PaletteLight.Primary.Value,
+            ConfirmButtonText = "Entendido",
+            DidClose = new SweetAlertCallback(accionAlCerrar)
+        });
+    }
+
     public static async Task<SweetAlertResult> AlertaError(this SweetAlertService sweetAlert, MudTheme theme, string mensaje, Func<Task>? accionAlCerrar = null)
     {
         return await sweetAlert.FireAsync(new SweetAlertOptions

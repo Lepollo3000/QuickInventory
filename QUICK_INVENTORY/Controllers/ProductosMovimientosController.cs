@@ -49,6 +49,12 @@ public class ProductosMovimientosController(IApplicationServices services, IAppl
                 .Productos.ConsultarProducto(productoId: createRequest.ProductoId)
                 ?? throw new ArgumentException("El producto ingresado no se encontró o no existe.");
 
+            if (createRequest.MovimientoTipoId == EnumMovimientoTipo.Salida
+            && (producto.Stock - createRequest.MovimientoCantidad) < 0)
+            {
+                throw new ArgumentException("No es posible retirar la cantidad ingresada, ya que sobrepasa el stock registrado del producto. Verifique la información ingresada.");
+            }
+
             ProductoMovimiento productoRegistro = await _services
                 .ProductoMovimientos.InsertarProductoRegistro(
                     createRequest: createRequest,

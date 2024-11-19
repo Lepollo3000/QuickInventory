@@ -94,6 +94,14 @@
                              Variant="@TextInputDefaults.Variant"
                              Immediate="@TextInputDefaults.Inmediate" />
 
+            <MudDatePicker @bind-Value="@Request.FechaMovimiento" For="@(() => Request.FechaMovimiento)"
+                             Label="@Request.GetDisplayName(model => model.FechaMovimiento)"
+                             HelperText="@Request.GetDisplayDescription(model => model.FechaMovimiento)"
+                             AdornmentColor="@TextInputDefaults.Color"
+                             Margin="@TextInputDefaults.Margin"
+                             Variant="@TextInputDefaults.Variant"
+                             Immediate="@TextInputDefaults.Inmediate" />
+
             <MudSelect @bind-Value="@Request.MovimientoTipoId" For="@(() => Request.MovimientoTipoId)"
                        Label="@Request.GetDisplayName(model => model.MovimientoTipoId)"
                        HelperText="@Request.GetDisplayDescription(model => model.MovimientoTipoId)"
@@ -246,7 +254,7 @@
                     }
                     else
                     {
-                        await SwalService.AlertaError(
+                        await SwalService.AlertaAdvertencia(
                             theme: ApplicationTheme,
                             mensaje: warningResult.Errors.First(),
                             accionAlCerrar: async () =>

@@ -7,11 +7,13 @@ public class ProductoMovimientoCreateRequest
 {
     [Requerido(ErrorMessage = "Se requiere buscar el producto.")]
     [MayorQueCero(ErrorMessage = "Se requiere buscar el producto.")]
-    [Display(Name = "Producto", Description = "El producto al cual afectará el movimiento.")]
+    [Display(Name = "Producto", Description = "El producto que será afectado por el movimiento.")]
     public int ProductoId { get; set; }
     [Requerido]
     [Display(Name = "Tipo de Movimiento", Description = "La afectación que se le realizará al producto.")]
     public EnumMovimientoTipo MovimientoTipoId { get; set; }
+    [Display(Name = "Fecha", Description = "Si no se agrega, se registrará por predeterminado la fecha actual.")]
+    public DateTime? FechaMovimiento { get; set; }
     [Requerido]
     [Display(Name = "Número de Empleado", Description = "El número de empleado implicado en el movimiento (si tiene gafette, escanealo).")]
     public string Empleado { get; set; } = null!;
